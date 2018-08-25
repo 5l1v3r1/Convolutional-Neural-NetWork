@@ -41,11 +41,12 @@ classifier.add(Dense(units =  1, activation = "sigmoid" ))
 classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
 
 #Part 2 - Fitting the CNN to the images. 
-from keras.preprocessing.image import ImageDataGenerator
 #import ImageDataGenerator, this functions gets all the images and changes them
 # to help with overfitting issues, you can change target_size to larger area
 # but this will need a gpu to gan results within a timely manner a cpu will
 # take possibly days to process. 
+
+from keras.preprocessing.image import ImageDataGenerator
 
 train_datagen = ImageDataGenerator(
         rescale=1./255,
@@ -65,15 +66,24 @@ test_set = test_datagen.flow_from_directory(
                                             target_size=(64, 64),
                                             batch_size=32,
                                             class_mode='binary')
-
+#############################################################################
+#Only run if you want to train your own network
+#############################################################################
 classifier.fit_generator(
                             training_set,
                             steps_per_epoch=(8000/32),
                             epochs=25,
                             validation_data=test_set,
                             validation_steps=(2000/32))
+#############################################################################
+#############################################################################
 
-#save model...really need this after 20/14hrs trainging!!
+# Heres what I prepared earlier load this before testing data, unless you used 
+# the above code and created your own.
+from keras.models import load_model
+classifier1 = load_model("model.h5")
+
+#save model...really need this after 20/14hrs training!!
 # Update to above comment, divided training set and test set to cut processing time drastically
 # and still have a good enough result.
 classifier.save("model_1.h5")
