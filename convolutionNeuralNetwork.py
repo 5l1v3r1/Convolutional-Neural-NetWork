@@ -17,35 +17,33 @@ from keras.layers import Dense
 classifier = Sequential()
 
 # Step 1 - Convolution (creating Feature maps)
-
 classifier.add(Conv2D(32,(3,3), input_shape = (64,64,3), activation = "relu"))
 
 # Step 2 - Max Pooling reduced feature map, maintaining features
-
 classifier.add(MaxPooling2D(pool_size = (2,2)))
+
 #Adding another convolutional layer to increase accuracy and decrease over fitting
 classifier.add(Conv2D(32,(3,3), activation = "relu"))
 classifier.add(MaxPooling2D(pool_size = (2,2)))
 
- #Flattening turn the feature map into one vector (column)
- 
+#Flattening turn the feature map into one vector (column)
 classifier.add(Flatten())
  
- #Step 4 Full connection
+#Step 4 Full connection
  
 classifier.add(Dense(units = 128, activation = "relu" ))
-#classifier.add(Dense(units = 128, activation = "relu" ))
 classifier.add(Dense(units =  1, activation = "sigmoid" ))
 
 #compiling convolution neural network
+
 classifier.compile(optimizer = "adam", loss = "binary_crossentropy", metrics = ["accuracy"])
 
 #Part 2 - Fitting the CNN to the images. 
 #import ImageDataGenerator, this functions gets all the images and changes them
 # to help with overfitting issues, you can change target_size to larger area
-# but this will need a gpu to gan results within a timely manner a cpu will
-# take possibly days to process. 
-
+# but this will need a gpu to gain results within a timely manner a cpu will
+# take possibly days to process. If you do change target_size you will also need
+# to change the input_shape to the same size.
 from keras.preprocessing.image import ImageDataGenerator
 
 train_datagen = ImageDataGenerator(
@@ -85,7 +83,7 @@ classifier1 = load_model("model.h5")
 
 #save model...really need this after 20/14hrs training!!
 # Update to above comment, divided training set and test set to cut processing time drastically
-# and still have a good enough result.
+# and still have a good enough result. Code now finishes in about 1 hour :)
 classifier.save("model_1.h5")
 
 # predict against images not in test file or training file
@@ -93,12 +91,11 @@ import numpy as np
 from keras.preprocessing import image 
 
 # change file to what ever picture you want tested answer will always
-# be a cat or dog...so if you try insert an image of a person dont be disapointed!
-newTest = image.load_img("single_prediction/cat_or_dog6.jpg", target_size =(64,64))
+# be a cat or dog...so if you try insert an image of a turtle do not be disapointed!
+newTest = image.load_img("single_prediction/cat_or_dog_1.jpg", target_size =(64,64))
 newTest = image.img_to_array(newTest)
 newTest = np.expand_dims(newTest, axis = 0)
 result = classifier.predict_classes(newTest)
-#result = (np.argmax(result))
 training_set.class_indices
 if result[0][0] == 1:
     prediction = "Dog"
@@ -106,9 +103,12 @@ else:
     prediction = "Cat"
     
 from keras.models import load_model
-classifier1 = load_model("model.h5")
+classifier1 = load_model("model_1.h5")
 
+#summary of the network
 classifier.summary()
+# shows all the weights its trained and used to make predictions
 classifier.get_weights()
+# reveals what optimizer was used
 classifier.optimizer
     
