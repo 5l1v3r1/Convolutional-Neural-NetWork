@@ -79,7 +79,7 @@ classifier.fit_generator(
 # Heres what I prepared earlier load this before testing data, unless you used 
 # the above code and created your own.
 from keras.models import load_model
-classifier1 = load_model("model.h5")
+classifier1 = load_model("model_1.h5")
 
 #save model...really need this after 20/14hrs training!!
 # Update to above comment, divided training set and test set to cut processing time drastically
@@ -101,9 +101,6 @@ if result[0][0] == 1:
     prediction = "Dog"
 else:
     prediction = "Cat"
-    
-from keras.models import load_model
-classifier1 = load_model("model_1.h5")
 
 #summary of the network
 classifier.summary()
