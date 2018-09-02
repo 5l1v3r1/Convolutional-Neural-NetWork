@@ -93,7 +93,7 @@ classifier1 = load_model("model_1.h5")
 # Update to above comment, divided training set and test set to cut processing time drastically
 # and still have a good enough result. Code now finishes in about 1 hour :)
 print("Saving model....")
-classifier.save("model_2.h5")
+classifier.save("model_1.h5")
 
 # predict against images not in test file or training file
 import numpy as np
@@ -101,7 +101,7 @@ from keras.preprocessing import image
 
 # change file to what ever picture you want tested answer will always
 # be a cat or dog...so if you try insert an image of a turtle do not be disapointed!
-newTest = image.load_img("single_prediction/cat_or_dog6.jpg", target_size =(64,64))
+newTest = image.load_img("single_prediction/cat_or_dog_2.jpg", target_size =(64,64))
 newTest = image.img_to_array(newTest)
 newTest = np.expand_dims(newTest, axis = 0)
 result = classifier.predict_classes(newTest)
